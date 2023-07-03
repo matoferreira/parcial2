@@ -17,9 +17,9 @@ exports.booksController = {
     },
     getBookByISBN: (req, res) => {
         try {
-            if (!req.params.id || !parseInt(req.params.id))
+            if (!req.params.isbn || !parseInt(req.params.isbn))
                 return res.status(400).json("invalid ISBN");
-            const result = books_1.books.find((book) => book.isbn === parseInt(req.params.id));
+            const result = books_1.books.find((book) => book.isbn === parseInt(req.params.isbn));
             if (result)
                 res.json(result);
             else
