@@ -48,23 +48,23 @@ export const employeeController = {
   getEmployeeByNameOrSurname: (req: any, res: any) => {
     try {
       const { name, surname } = req.query;
-  
+
       let filteredEmployees = employees;
-  
+
       if (name) {
         const lowercaseName = name.toLowerCase();
         filteredEmployees = filteredEmployees.filter((employee) =>
           employee.names.toLowerCase().includes(lowercaseName)
         );
       }
-  
+
       if (surname) {
         const lowercaseSurname = surname.toLowerCase();
         filteredEmployees = filteredEmployees.filter((employee) =>
           employee.surnames.toLowerCase().includes(lowercaseSurname)
         );
       }
-  
+
       const result: Employee[] = filteredEmployees.map(
         ({ id, names, surnames, email, phoneNumber, company, notes }) => ({
           id,
@@ -76,7 +76,7 @@ export const employeeController = {
           notes,
         })
       );
-  
+
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -84,5 +84,33 @@ export const employeeController = {
         .status(500)
         .json({ message: "Error fetching employees from the database" });
     }
-  }
+  },
+
+  addEmployee: (req: any, res: any) => {
+    try {
+      const newEmployee: Employee = req.body;
+
+      const newEmployeeId = generateUniqueId();
+      newEmployee.id = newEmployeeId;
+
+      employees.push({
+        ...newEmployee,
+      });
+
+      res.json({ message: "Succesfuly added employee to Agenda" });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ message: "Error adding employee, please try again" });
+    }
+  },
+};
+
+function generateUniqueId() {
+  const maxId = 9999;
+  const minId = 1000;
+
+  const randomId = Math.floor(Math.random() * (maxId - minId + 1)) + minId;
+  return randomId;
 };

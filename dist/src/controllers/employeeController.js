@@ -71,5 +71,27 @@ exports.employeeController = {
                 .status(500)
                 .json({ message: "Error fetching employees from the database" });
         }
-    }
+    },
+    addEmployee: (req, res) => {
+        try {
+            const newEmployee = req.body;
+            const newEmployeeId = generateUniqueId();
+            newEmployee.id = newEmployeeId;
+            employees_1.employees.push(Object.assign({}, newEmployee));
+            res.json({ message: "Succesfuly added employee to Agenda" });
+        }
+        catch (error) {
+            console.log(error);
+            res
+                .status(500)
+                .json({ message: "Error adding employee, please try again" });
+        }
+    },
 };
+function generateUniqueId() {
+    const maxId = 9999;
+    const minId = 1000;
+    const randomId = Math.floor(Math.random() * (maxId - minId + 1)) + minId;
+    return randomId;
+}
+;
