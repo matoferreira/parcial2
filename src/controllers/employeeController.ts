@@ -105,6 +105,33 @@ export const employeeController = {
         .json({ message: "Error adding employee, please try again" });
     }
   },
+
+  deleteEmployee: (req: any, res: any) => {
+    try {
+      const employeeId: number = req.params.id;
+
+      const employeeIndex = employees.findIndex(
+        (employee) => employee.id === employeeId
+      );
+
+      if (employeeIndex === -1) {
+        return res
+          .status(404)
+          .json({ message: "Employee not found in agenda" });
+      }
+
+      employees.splice(employeeIndex, 1);
+
+      res.json({ message: "Employee deleted successfully from the agenda" });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({
+          message: "Error deleting employee from the agenda, please try again",
+        });
+    }
+  },
 };
 
 function generateUniqueId() {
@@ -113,4 +140,4 @@ function generateUniqueId() {
 
   const randomId = Math.floor(Math.random() * (maxId - minId + 1)) + minId;
   return randomId;
-};
+}

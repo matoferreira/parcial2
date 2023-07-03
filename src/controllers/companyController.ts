@@ -61,6 +61,27 @@ export const companyController = {
         .json({ message: "Error adding company to agenda, please try again" });
     }
   },
+
+  deleteCompany: (req: any, res: any) => {
+    try {
+      const companyId: number = req.params.id;
+
+      const companyIndex = companies.findIndex(
+        (company) => company.id === companyId
+      );
+
+      if (companyIndex === -1) {
+        return res.status(404).json({ message: "company not found in agenda" });
+      }
+
+      companies.splice(companyIndex, 1);
+
+      res.json({ message: "company deleted successfully from the agenda" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Error deleting company from the agenda, please try again" });
+    }
+  },
 };
 
 function generateUniqueId() {
