@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.companyController = void 0;
 const companies_1 = require("../data/companies");
+const employees_1 = require("../data/employees");
 exports.companyController = {
     getCompany: (req, res) => {
         try {
@@ -52,6 +53,33 @@ exports.companyController = {
             res
                 .status(500)
                 .json({ message: "Error adding company to agenda, please try again" });
+        }
+    },
+    deleteCompany: (req, res) => {
+        try {
+            const companyId = req.params.id;
+            const companyToBeDeleted = companies_1.companies.find((company) => company.id === companyId);
+            if (!companyToBeDeleted) {
+                return res.status(404).json({ message: "Company not found in agenda" });
+            }
+            const checkEmployees = employees_1.employees.some((employee) => employee.company === (companyToBeDeleted === null || companyToBeDeleted === void 0 ? void 0 : companyToBeDeleted.name));
+            if (checkEmployees) {
+                return res.status(400).json({
+                    message: "Cannot delete the company as it has associated employees",
+                });
+            }
+            const companyIndex = companies_1.companies.findIndex((company) => company.id === companyId);
+            if (companyIndex === -1) {
+                return res.status(404).json({ message: "company not found in agenda" });
+            }
+            companies_1.companies.splice(companyIndex, 1);
+            res.json({ message: "company deleted successfully from the agenda" });
+        }
+        catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Error deleting company from the agenda, please try again",
+            });
         }
     },
 };

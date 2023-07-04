@@ -1,4 +1,5 @@
 import { companies } from "../data/companies";
+import { employees } from "../data/employees";
 import { Company } from "../interface/companyInterface";
 
 export const companyController = {
@@ -66,6 +67,24 @@ export const companyController = {
     try {
       const companyId: number = req.params.id;
 
+      const companyToBeDeleted = companies.find(
+        (company) => company.id === companyId
+      );
+
+      if (!companyToBeDeleted) {
+        return res.status(404).json({ message: "Company not found in agenda" });
+      }
+
+      const checkEmployees = employees.some(
+        (employee) => employee.company === companyToBeDeleted?.name
+      );
+
+      if (checkEmployees) {
+        return res.status(400).json({
+          message: "Cannot delete the company as it has associated employees",
+        });
+      }
+
       const companyIndex = companies.findIndex(
         (company) => company.id === companyId
       );
@@ -79,7 +98,9 @@ export const companyController = {
       res.json({ message: "company deleted successfully from the agenda" });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Error deleting company from the agenda, please try again" });
+      res.status(500).json({
+        message: "Error deleting company from the agenda, please try again",
+      });
     }
   },
 };

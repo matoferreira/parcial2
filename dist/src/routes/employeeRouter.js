@@ -7,4 +7,5 @@ employeeRouter.get("/employees", employeeController_1.employeeController.getEmpl
 employeeRouter.get("/employees/:id", employeeController_1.employeeController.getEmployeeByID);
 employeeRouter.get("/employee", employeeController_1.employeeController.getEmployeeByNameOrSurname);
 employeeRouter.post("/addemployee", employeeController_1.employeeController.addEmployee);
+employeeRouter.delete("/deleteEmployee/:id", employeeController_1.employeeController.deleteEmployee);
 exports.default = employeeRouter;
