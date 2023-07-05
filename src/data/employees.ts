@@ -1,4 +1,6 @@
-export const employees = [
+import { Employee } from "../interface/employeeInterface";
+
+export const employees: Employee[] = [
   {
     id: 1,
     names: "John",
@@ -7,6 +9,7 @@ export const employees = [
     phoneNumber: 1234567890,
     company: "ABC Corp",
     notes: "Employee in the IT department.",
+    password: "password1",
   },
   {
     id: 2,
@@ -16,6 +19,7 @@ export const employees = [
     phoneNumber: 9876543210,
     company: "XYZ Inc",
     notes: "Marketing specialist.",
+    password: "password2",
   },
   {
     id: 3,
@@ -25,6 +29,7 @@ export const employees = [
     phoneNumber: 4567891230,
     company: "PQR Ltd",
     notes: "Accountant.",
+    password: "password3",
   },
   {
     id: 4,
@@ -34,6 +39,7 @@ export const employees = [
     phoneNumber: 7891234560,
     company: "123 Industries",
     notes: "Software engineer.",
+    password: "password4",
   },
   {
     id: 5,
@@ -43,6 +49,7 @@ export const employees = [
     phoneNumber: 3216549870,
     company: "Acme Corporation",
     notes: "Human resources manager.",
+    password: "password5",
   },
   {
     id: 6,
@@ -52,6 +59,7 @@ export const employees = [
     phoneNumber: 6547893210,
     company: "ABC Corp",
     notes: "Project manager.",
+    password: "password6",
   },
   {
     id: 7,
@@ -61,6 +69,7 @@ export const employees = [
     phoneNumber: 9873216540,
     company: "PQR Ltd",
     notes: "Sales representative.",
+    password: "password7",
   },
   {
     id: 8,
@@ -70,6 +79,7 @@ export const employees = [
     phoneNumber: 7894561230,
     company: "XYZ Inc",
     notes: "Product manager.",
+    password: "password8",
   },
   {
     id: 9,
@@ -79,6 +89,7 @@ export const employees = [
     phoneNumber: 4561237890,
     company: "123 Industries",
     notes: "Quality assurance specialist.",
+    password: "password9",
   },
   {
     id: 10,
@@ -88,23 +99,6 @@ export const employees = [
     phoneNumber: 3217896540,
     company: "Acme Corporation",
     notes: "Marketing manager.",
-  },
-  {
-    id: 11,
-    names: "Matias",
-    surnames: "Martinez",
-    email: "matiasmartinez@example.com",
-    phoneNumber: 790094561230,
-    company: "XYZ Inc",
-    notes: "Product manager.",
-  },
-  {
-    id: 12,
-    names: "Pepe",
-    surnames: "Walker",
-    email: "pepewalker@example.com",
-    phoneNumber: 3217896540,
-    company: "Acme Corporation",
-    notes: "Marketing manager.",
+    password: "password10",
   },
 ];

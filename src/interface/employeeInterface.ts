@@ -8,4 +8,5 @@ export interface Employee {
   phoneNumber: number;
   company: Company["name"];
   notes: string;
+  password: string;
 }

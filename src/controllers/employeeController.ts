@@ -1,20 +1,36 @@
 import { employees } from "../data/employees";
 import { Employee } from "../interface/employeeInterface";
+import jwt from "jsonwebtoken";
+
 
 export const employeeController = {
+  login: (req: any, res: any) => {
+    try {
+      const { email, password } = req.body;
+      const employee = employees.find(
+        (employee) => employee.email === email && employee.password === password
+      );
+
+      if (employee) {
+        const token = jwt.sign({ id: employee.id }, process.env.SECRET_KEY!, {
+          algorithm: "HS256",
+          expiresIn: "24h",
+        });
+
+        res.status(200).json({ token });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ message: "Error when trying log in" });
+    }
+  },
+
   getEmployees: (req: any, res: any) => {
     try {
-      const result: Employee[] = employees.map(
-        ({ id, names, surnames, email, phoneNumber, company, notes }) => ({
-          id,
-          names,
-          surnames,
-          email,
-          phoneNumber,
-          company,
-          notes,
-        })
-      );
+      const result = employees.map((employee) => {
+        const { password, ...employeeWithoutPassword } = employee;
+        return employeeWithoutPassword;
+      });
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -65,17 +81,10 @@ export const employeeController = {
         );
       }
 
-      const result: Employee[] = filteredEmployees.map(
-        ({ id, names, surnames, email, phoneNumber, company, notes }) => ({
-          id,
-          names,
-          surnames,
-          email,
-          phoneNumber,
-          company,
-          notes,
-        })
-      );
+      const result = employees.map((employee) => {
+        const { password, ...employeeWithoutPassword } = employee;
+        return employeeWithoutPassword;
+      });
 
       res.json(result);
     } catch (error) {
@@ -108,10 +117,11 @@ export const employeeController = {
 
   deleteEmployee: (req: any, res: any) => {
     try {
-      const employeeId: number = req.params.id;
+      const employeeId: string = req.params.id;
+      console.log(req.params.id);
 
       const employeeIndex = employees.findIndex(
-        (employee) => employee.id === employeeId
+        (employee) => employee.id.toString() === employeeId
       );
 
       if (employeeIndex === -1) {
@@ -125,11 +135,9 @@ export const employeeController = {
       res.json({ message: "Employee deleted successfully from the agenda" });
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          message: "Error deleting employee from the agenda, please try again",
-        });
+      res.status(500).json({
+        message: "Error deleting employee from the agenda, please try again",
+      });
     }
   },
 };
